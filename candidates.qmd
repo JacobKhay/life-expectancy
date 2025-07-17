@@ -2,5 +2,14 @@
 title: "Life Expectancy for Political Candidates"
 author: "Jacob Khaykin"
 format: html
+execute: 
+  echo: false
 ---
 
+How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election.
+
+```{r}
+#| message: false
+library(tidyverse)
+library(primer.data)
+```
