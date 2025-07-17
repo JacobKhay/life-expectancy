@@ -8,7 +8,8 @@ execute:
   warning: false
 ---
 
-How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election. One limitation of our model is that the relationship between age and longevity may have changed over time, which could violate the stability assumption. We model longevity, measured in years lived after an election, as a linear function of a candidate’s sex and age at the time of election.
+How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election. One limitation of our model is that the relationship between age and longevity may have changed over time, which could violate the stability assumption. We model longevity, measured in years lived after an election, as a linear function of a candidate’s sex and age at the time of election. For example, we estimate that a male candidate elected at age 60 lives about 8.7 fewer years after the election than a female candidate elected at age 40, with a 95% confidence interval ranging from 3.5 to 14.2 years.
+
 
 
 
@@ -20,7 +21,7 @@ library(tidymodels)
 library(broom)
 library(tidymodels)
 library(gt)  # for nice tables
-
+library(marginaleffects)
 ```
 
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n + \epsilon$$
@@ -59,4 +60,28 @@ fit_years |>
     conf.low = "Lower 95% CI",
     conf.high = "Upper 95% CI"
   )
+```
+
+```{r}
+#| label: "prediction-plot"
+#| fig-cap: "Predicted years lived after election by age and sex"
+#| warning: false
+#| message: false
+
+plot_predictions(fit_years, 
+                 by = c("election_age", "sex")) +
+  labs(
+    title = "Predicted Longevity After Election by Age and Sex",
+    subtitle = "Male candidates see a steeper decline in years lived after election as age increases",
+    x = "Age at Election",
+    y = "Predicted Years Lived After Election",
+    caption = "Source: U.S. Governors Data (1900–2020)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12),
+    plot.caption = element_text(size = 10)
+  )
+
 ```

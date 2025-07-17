@@ -99,7 +99,7 @@ window.Quarto = {
 </header>
 
 
-<p>How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election. One limitation of our model is that the relationship between age and longevity may have changed over time, which could violate the stability assumption.</p>
+<p>How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election. One limitation of our model is that the relationship between age and longevity may have changed over time, which could violate the stability assumption. We model longevity, measured in years lived after an election, as a linear function of a candidate’s sex and age at the time of election.</p>
 <p><span class="math display">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n + \epsilon\]</span></p>
 <p>with <span class="math inline">\(\epsilon \sim \mathcal{N}(0, \sigma^2)\)</span>.</p>
 <p><span class="math display">\[
@@ -591,6 +591,16 @@ window.Quarto = {
 </tbody>
 </table>
 
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="candidates_files/figure-html/prediction-plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Predicted years lived after election by age and sex</figcaption>
+</figure>
 </div>
 </div>
 </div>
