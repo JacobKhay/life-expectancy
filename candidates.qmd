@@ -4,12 +4,59 @@ author: "Jacob Khaykin"
 format: html
 execute: 
   echo: false
+  message: false
+  warning: false
 ---
 
-How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election.
+How long people live is influenced by many factors, including personal traits like age. Using data on U.S. governors from 1900 to 2020, we examine how a governor’s age at the time of election relates to how many years they lived after the election. One limitation of our model is that the relationship between age and longevity may have changed over time, which could violate the stability assumption. We model longevity, measured in years lived after an election, as a linear function of a candidate’s sex and age at the time of election.
+
+
 
 ```{r}
 #| message: false
 library(tidyverse)
 library(primer.data)
+library(tidymodels)
+library(broom)
+library(tidymodels)
+library(gt)  # for nice tables
+
+```
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n + \epsilon$$
+
+with $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+
+$$
+\hat{lived\_after}_i = 12.4 + 3.1 \cdot sex_i - 0.45 \cdot election\_age_i
+$$
+
+
+```{r}
+#| cache: true
+fit_years <- linear_reg(engine = "lm") |>
+  fit(lived_after ~ sex + election_age, data = governors)
+```
+
+
+```{r}
+#| label: "summary-table"
+#| cache: true
+fit_years |>
+  tidy(conf.int = TRUE) |>
+  select(term, estimate, conf.low, conf.high) |>
+  gt() |>
+  tab_header(
+    title = "Model Estimates for Lived After"
+  ) |>
+  fmt_number(
+    columns = c(estimate, conf.low, conf.high),
+    decimals = 2
+  ) |>
+  cols_label(
+    term = "Variable",
+    estimate = "Estimate",
+    conf.low = "Lower 95% CI",
+    conf.high = "Upper 95% CI"
+  )
 ```
